@@ -8,7 +8,9 @@
     <meta http-equiv="X-UA-Compatible"
     content="IE=edge">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-     integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <title>Library of Alexandria</title>
   </head>
   <body>
@@ -19,16 +21,16 @@
       <nav class="main-nav">
         <ul>
           <li>
-           <a href="#">Home</a>
+           <a href="index.html">Placeholder</a>
           </li>
           <li>
-            <a href="#">Boktips</a>
+            <a href="#">Placeholder</a>
           </li>
           <li>
-            <a href="#">Om mig</a>
+            <a href="#">Placeholder</a>
           </li>
           <li>
-            <a href="#">?</a>
+            <a href="#">Placeholder</a>
           </li>
         </ul>
       </nav>
@@ -37,20 +39,22 @@
 
       <section class="top-container">
         <header class="showcase">
-          <h1>Library of alexandria</h1>
-          <p>What is Library of alexandria? It helps you keep track off books you have read
-          books that you want to read and also give them an rating.</p>
-          <a href="#" class="btn">Read More</a>
+          <h1>Bookclub of alexandria</h1>
+          <p>Make your own list of books today!</p>
+          <button class="getApiBtn">Api-Generator</button>
+          <p class="pApi"></p>
         </header>
         <div class="top-box top-box-a">
-          <h4>Membership</h4>
-          <p class="price">$199/month</p>
-          <a href="" class="btn">Buy Now</a>
+          <h4>Add Books</h4>
+          <input type="text" placeholder="Book title" id="bookTitle">
+          <input type="text" placeholder="Author" id="author">
+          <button class="btnAdd">Add book</button>
         </div>
         <div class="top-box top-box-b">
-          <h4>Membership Pro</h4>
-          <p class="price">$299/month</p>
-          <a href="" class="btn">Buy Now</a>
+          <button class="viewBookBtn">View books</button>
+          <div class="bookBox">
+
+          </div>
         </div>
       </section>
 
@@ -58,20 +62,20 @@
 
       <section class="boxes">
         <div class="box">
-          <i class="fas fa-chart-pie fa-4x"></i>
-          <h3>Analytics</h3>
+          <i class="fas fa-book fa-4x"></i>
+          <h3>Books</h3>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
           Provident, fugit.</p>
         </div>
         <div class="box">
-          <i class="fas fa-globe fa-4x"></i>
-          <h3>Marketing</h3>
+          <i class="fas fa-award fa-4x"></i>
+          <h3>Awards</h3>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
           Provident, fugit.</p>
         </div>
         <div class="box">
           <i class="fas fa-cog fa-4x"></i>
-          <h3>Analytics</h3>
+          <h3>Settings</h3>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
           Provident, fugit.</p>
         </div>
@@ -85,34 +89,6 @@
 
       <!-- Info section -->
 
-      <section class="info">
-        <img src="img/pic1.jpg" alt="placeholder">
-        <div>
-          <h2>Your buissnis on the web</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Maiores nisi illo architecto sequi neque est laudantium
-            adipisci laboriosam ipsam earum dolore nemo, quis distinctio
-            quaerat, numquam at inventore. Corporis, debitis doloremque?
-            Totam iusto voluptas iure, voluptate accusamus illo. Quae, modi.</p>
-            <a href="#" class="btn">Learn more</a>
-        </div>
-      </section>
-
-      <!-- portfolio -->
-
-      <section class="portfolio">
-        <img src="https://source.unsplash.com/random/200x200" alt="">
-        <img src="https://source.unsplash.com/random/201x200" alt="">
-        <img src="https://source.unsplash.com/random/202x200" alt="">
-        <img src="https://source.unsplash.com/random/203x200" alt="">
-        <img src="https://source.unsplash.com/random/204x200" alt="">
-        <img src="https://source.unsplash.com/random/205x200" alt="">
-        <img src="https://source.unsplash.com/random/206x200" alt="">
-        <img src="https://source.unsplash.com/random/207x200" alt="">
-        <img src="https://source.unsplash.com/random/208x200" alt="">
-
-
-      </section>
 
       <!-- footer -->
       <footer>
@@ -120,6 +96,6 @@
       </footer>
       </div>
 <!-- Wrapper ends -->
-
+  <script src="dom.js"></script>
   </body>
 </html>
