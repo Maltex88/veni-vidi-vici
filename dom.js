@@ -5,7 +5,7 @@ och skriv ut i fältet nedan.
 pApi - detta är fältet som för tillfället skall hålla nyckel.*/
 //-----------------------------------------------------------
 /*Hämta nyckel*/
-const apiKey = 'ENYKB';
+const apiKey = 'UTuiv';
 let http = 'https://www.forverkliga.se/JavaScript/api/crud.php?requestKey'
 $('.getApiBtn').on('click', event => {
   const url = 'https://www.forverkliga.se/JavaScript/api/crud.php';
@@ -16,18 +16,47 @@ $('.getApiBtn').on('click', event => {
     },
   }
   xhr = $.ajax(url, settings);
-  xhr.done(whenKeyRequestDone);
+  xhr.done(whenKeyRequestDone)
+     .fail(error => whenFail(error, numberOfTries-1));
 });
 
-  function whenKeyRequestDone(data) {
-    let object = JSON.parse(data);
-    let apiKey = object.key;
+function whenKeyRequestDone(data) {
+  let object = JSON.parse(data);
+  let apiKey = object.key;
+  if(object.status == "success") {
     document.querySelector('.pApi').innerHTML = apiKey;
-  };
+  }
+  else {
+    whenFail();
+    $('.failLogg').append('<div class="failDiv">' + object.message + '</div>');
+  }
+
+};
 //--------------------------------------------------------
 /*Skapa object och pusha det till apiet.*/
 
 $('.btnAdd').on('click', event => {
+  sendInsertRequest();
+});
+
+function sendInsertRequest(numberOfTries = 5) {
+
+  function whenAddDone(data) {
+    let object = JSON.parse(data);
+    let error = object
+    if(object.status == "success") {
+    } else {
+      whenFail(null, numberOfTries);
+      $('.failLogg').append('<div class="failDiv">' + error.message + '</div>');
+    }
+  };
+
+  function whenFail(error) {
+    sendInsertRequest(numberOfTries - 1);
+  };
+
+  if(numberOfTries < 1)
+    return;
   var bookTitle = $('#bookTitle').val();
   var authors = $('#author').val();
   const url = 'https://www.forverkliga.se/JavaScript/api/crud.php';
@@ -40,21 +69,41 @@ $('.btnAdd').on('click', event => {
       author: authors,
     },
   }
-    xhr = $.ajax(url, settings);
-    xhr.done(whenAddDone);
-  });
-
-  function whenAddDone(data) {
-
-    console.log('skriv ut ', data);
-  };
-    console.log(whenAddDone);
-//-------------------------------------------------------------
+  xhr = $.ajax(url, settings);
+  xhr.done(whenAddDone)
+     .fail(whenFail);
+};
+//-------------------------------------------------------
 
 /*View books in the api*/
-
-
 $('.viewBookBtn').on('click', event => {
+  sendGetAllBooksRequest();
+});
+
+function sendGetAllBooksRequest(numberOfTries = 5){
+  function whenViewDone(data) {
+      let object = JSON.parse(data);
+      if(object.status == "success") {
+        let books = object.data;
+        for(i = 0; i < books.length; i++ ) {
+          let book = books[i];
+          $('.bookBox').append('<div class="bookList">' + book.title + '</div>');
+          $('.bookBox').append('<div class="bookList">' + book.author + '</div>');
+          $('.bookBox').append('<div class="bookList">' + book.id + '</div>');
+        }
+      } else {
+        whenFail(numberOfTries);
+        $('.failLogg').append('<div class="failDiv">' + object.message + '</div>');
+
+        }
+    };
+
+  function whenFail(error) {
+    sendGetAllBooksRequest(numberOfTries - 1);
+  };
+
+  if (numberOfTries < 1)
+    return;
   const url = 'https://www.forverkliga.se/JavaScript/api/crud.php';
   const settings = {
     method: 'GET',
@@ -63,23 +112,8 @@ $('.viewBookBtn').on('click', event => {
       key: apiKey,
     },
   }
-    xhr = $.ajax(url, settings);
-    xhr.done(whenViewDone)
-      xhr.fail(onError)
-  });
-
-  function whenViewDone(data) {
-    let object = JSON.parse(data);
-    let book = object.data;
-    console.log(book);
-    for(i = 0; i < book.length; i++ ) {
-      let book = object.data[i];
-      console.log(book.id +' '+  book.title +' '+ book.author);
-      //$('.books').append('<li>' + book.title +  '  ' + book.author + ' '  + book.id + '</li>');
-      $('.bookBox').append('<div class="bookList">' + book.title + '</div>');
-      $('.bookBox').append('<div class="bookList">' + book.author + '</div>');
-        $('.bookBox').append('<div class="bookList">' + book.id + '</div>');
-      //$('.bookBox').append('<li class="bookList">' + book.id + '</li>');
-    }
-  };
-//-
+  xhr = $.ajax(url, settings);
+  xhr.done(whenViewDone)
+    .fail(whenFail);
+};
+/*  */
