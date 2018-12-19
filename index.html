@@ -14,10 +14,9 @@
     <title>Library of Alexandria</title>
   </head>
   <body>
+  <!-- Wrapper start -->
     <div class="wrapper">
-
       <!-- Navigation -->
-
       <nav class="main-nav">
         <ul>
           <li>
@@ -34,16 +33,15 @@
           </li>
         </ul>
       </nav>
+      <!-- Nav bar ends -->
 
-      <!-- Top container -->
-
+      <!-- Top container start -->
       <section class="top-container">
         <header class="showcase">
           <h1>Bookclub of alexandria</h1>
           <p>Make your own list of books today!</p>
           <button class="getApiBtn">Api-Generator</button>
           <p class="pApi"></p>
-          
         </header>
         <div class="top-box top-box-a">
           <h4>Add Books</h4>
@@ -52,14 +50,18 @@
           <button class="btnAdd">Add book</button>
         </div>
         <div class="top-box top-box-b">
-          <button class="viewBookBtn">View books</button>
-          <div class="bookBox">
+          <button class="viewBookBtn">View your booklist</button>
 
+          <div class="bookBox">
+            <div class="styleThisButton"></div>
+            <div class="styleThisButton"></div>
+            <button>Change books</button>
+            <button>Delete All</button>
           </div>
         </div>
       </section>
-
-      <!-- Boxes section ? -->
+      <!-- Top container ends -->
+      <!-- Boxes section -->
 
       <section class="boxes">
         <div class="box">
@@ -80,16 +82,12 @@
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
           Provident, fugit.</p>
         </div>
-        <div class="box">
+        <div class="box" id="failLogg">
           <i class="fas fa-users fa-4x"></i>
           <h3>Fail Logg</h3>
           <div class="failLogg"></div>
         </div>
       </section>
-
-      <!-- Info section -->
-
-
       <!-- footer -->
       <footer>
         <p>Maltex &copy; 2018</p>

@@ -71,7 +71,8 @@ button:hover {
   grid-gap: 20px;
   grid-template-areas:
   'showcase showcase'
-  'top-box-a top-box-b';
+  'top-box-a top-box-b'
+
 }
 
 /*showcase*/
@@ -121,18 +122,25 @@ button:hover {
 
 .top-box-a {
   grid-area: top-box-a;
+  height: 300px;
 }
 .top-box-b {
   grid-area: top-box-b;
+
 }
+
 .bookBox {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr ;
 }
-.bookList {
-  border: 1px solid black;
 
+.bookList {
   padding: 10px;
+}
+
+.top-box-b, p {
+  margin: 0px;
+  padding: 0px;
 }
 .boxes {
   display: grid;
@@ -146,10 +154,15 @@ button:hover {
   padding: 1.5rem 2rem;
   box-shadow: var(--shadow);
 }
+.newDelete:hover {
+  color: black;
+  background: red;
+}
 
 .books {
   list-style: none;
 }
+
 
 /*top box*/
 
