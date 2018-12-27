@@ -47,7 +47,6 @@ function sendInsertRequest(numberOfTries = 5) {
   function whenAddDone(data) {
     let object = JSON.parse(data);
     let error = object;
-    console.log('detta är objektet: ' + object.id);
     if(object.status == "success") {
       let newDelete = $('<button class="newDelete"><div class="bookList"><i class="far fa-trash-alt"></i></div></button>');
       let deleteButton = $('<button class="bookDelete"><div class="bookList">' + bookTitle + '</div></button>');
@@ -56,16 +55,12 @@ function sendInsertRequest(numberOfTries = 5) {
 
       makeChanges.click(event => {
         bookId = object.id;
-        console.log('Nu klickar jag på knappen make changes efter att ha addat en bok till listan ' +bookId);
-
         makeChangesToBook();
 
 
         });
       newDelete.click(event => {
         bookId = object.id;
-        console.log('Nu klickar jag på knappen efter att ha addat en bok till listan ' +bookId);
-
         sendDeleteAllBooksRequest();
       });
 
@@ -222,7 +217,7 @@ $('.makeChanges').on('click', event => {
             author = $('#changeBookAuthor').val();
             let deleteButton = $('<button class="bookDelete"><div class="bookList">' + book + '</div></button>');
             let changeButton = $('<button class="bookChange"><div class="bookList">' + author + '</div></button>');
-
+            sendGetAllBooksRequest();
           });
           $('.bookBox').append(newDelete);
           $('.bookBox').append(deleteButton);
@@ -232,6 +227,7 @@ $('.makeChanges').on('click', event => {
 
       } else {
         whenFail(numberOfTries);
+
         $('.failLogg').append('<div class="failDiv">' + object.message + '</div>');
         }
     };
@@ -241,7 +237,9 @@ $('.makeChanges').on('click', event => {
   };
 
   if (numberOfTries < 1)
+
     return;
+
   const url = 'https://www.forverkliga.se/JavaScript/api/crud.php';
   const settings = {
     method: 'GET',
