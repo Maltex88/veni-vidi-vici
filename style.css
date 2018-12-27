@@ -162,7 +162,21 @@ button:hover {
 .books {
   list-style: none;
 }
-
+#checkBoxGreen {
+  color: green;
+}
+.newChangeGreen {
+  color: green;
+}
+.newDelete {
+  color: red;
+}
+#newChangeGreen {
+  color: green;
+}
+#newChangeGreen:hover {
+  background-color: green;
+}
 
 /*top box*/
 
@@ -174,6 +188,18 @@ footer {
   color: var(--light);
   text-align: center;
   padding: 1rem;
+}
+#changeBookName {
+  height: 100%;
+}
+#changeBookAuthor {
+  height: 100%;
+}
+#changeBookId {
+  height: 100%;
+}
+.deleteAll:hover {
+  background: red;
 }
 
 /* Media Queries */

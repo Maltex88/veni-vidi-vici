@@ -8,6 +8,9 @@ pApi - detta är fältet som för tillfället skall hålla nyckel.*/
 const apiKey = 'GTKRQ';
 let bookId = '';
 let http = 'https://www.forverkliga.se/JavaScript/api/crud.php?requestKey'
+var book = '';
+var author = '';
+
 //Get api Generator
 $('.getApiBtn').on('click', event => {
   const url = 'https://www.forverkliga.se/JavaScript/api/crud.php';
@@ -21,7 +24,6 @@ $('.getApiBtn').on('click', event => {
   xhr.done(whenKeyRequestDone)
      .fail(error => whenFail(error, numberOfTries-1));
 });
-
 function whenKeyRequestDone(data) {
   let object = JSON.parse(data);
   let apiKey = object.key;
@@ -47,19 +49,32 @@ function sendInsertRequest(numberOfTries = 5) {
     let error = object;
     console.log('detta är objektet: ' + object.id);
     if(object.status == "success") {
-      let newDelete = $('<button class="newDelete"><div class="bookList">' + 'Delete book' + '</div></button>');
+      let newDelete = $('<button class="newDelete"><div class="bookList"><i class="far fa-trash-alt"></i></div></button>');
       let deleteButton = $('<button class="bookDelete"><div class="bookList">' + bookTitle + '</div></button>');
       let changeButton = $('<button class="bookChange"><div class="bookList">' + authors + '</div></button>');
-      let deleteAllButton = $('<button class="deleteAll"><div class="bookList">' + object.id + '</div></button>');
+      let makeChanges = $('<button class="makeChanges"><div class="bookList"><i class="fas fa-edit"></i></div></button>');
+
+      makeChanges.click(event => {
+        bookId = object.id;
+        console.log('Nu klickar jag på knappen make changes efter att ha addat en bok till listan ' +bookId);
+
+        makeChangesToBook();
+
+
+        });
       newDelete.click(event => {
         bookId = object.id;
-        console.log('Nu är jag inne i delete ');
+        console.log('Nu klickar jag på knappen efter att ha addat en bok till listan ' +bookId);
+
         sendDeleteAllBooksRequest();
-      })
+      });
+
+
       $('.bookBox').append(newDelete);
       $('.bookBox').append(deleteButton);
       $('.bookBox').append(changeButton);
-      $('.bookBox').append(deleteAllButton);
+      //$('.bookBox').append(deleteAll);
+      $('.bookBox').append(makeChanges);
 
     }
      else {
@@ -74,8 +89,8 @@ function sendInsertRequest(numberOfTries = 5) {
 
   if(numberOfTries < 1)
     return;
-  var bookTitle = $('#bookTitle').val();
-  var authors = $('#author').val();
+  let bookTitle = $('#bookTitle').val();
+  let authors = $('#author').val();
   const url = 'https://www.forverkliga.se/JavaScript/api/crud.php';
   const settings = {
     method: 'GET',
@@ -98,30 +113,31 @@ $('.viewBookBtn').on('click', event => {
   sendGetAllBooksRequest();
 });
 function sendGetAllBooksRequest(numberOfTries = 5){
-  $(".newDelete, .bookDelete, .bookChange, .deleteAll").remove();
+  $(".newDelete, .bookDelete, .bookChange, .deleteAll, .makeChanges").remove();
   function whenViewDone(data) {
       let object = JSON.parse(data);
       if(object.status == "success") {
         let books = object.data;
         for(i = 0; i < books.length; i++ ) {
           let book = books[i];
-          let newDelete = $('<button class="newDelete"><div class="bookList">' + 'Delete Book' + '</div></button>');
+          let newDelete = $('<button class="newDelete"><div class="bookList"><i class="far fa-trash-alt"></i></div></button>');
           let deleteButton = $('<button class="bookDelete"><div class="bookList">' + book.title + '</div></button>');
           let changeButton = $('<button class="bookChange"><div class="bookList">' + book.author + '</div></button>');
-          let deleteAllButton = $('<button class="deleteAll"><div class="bookList">' + book.id + '</div></button>');
-          newDelete.click(event => {
-            console.log('Nu klickade jag på knappen')
-            bookId = book.id;
-            console.log('Bookens Id ' + bookId);
-            sendDeleteAllBooksRequest();
+          let makeChanges = $('<button class="makeChanges"><div class="bookList"><i class="fas fa-edit"></i></div></button>');
 
-          })
+          makeChanges.click(event => {
+            bookId = book.id;
+            makeChangesToBook();
+          });
+          newDelete.click(event => {
+            bookId = book.id;
+            sendDeleteAllBooksRequest();
+          });
           $('.bookBox').append(newDelete);
           $('.bookBox').append(deleteButton);
           $('.bookBox').append(changeButton);
-          $('.bookBox').append(deleteAllButton);
-
-        }  //bookDelete, deleteAll, bookChange
+          $('.bookBox').append(makeChanges);
+        }
       } else {
         whenFail(numberOfTries);
         $('.failLogg').append('<div class="failDiv">' + object.message + '</div>');
@@ -148,16 +164,13 @@ function sendGetAllBooksRequest(numberOfTries = 5){
     .fail(whenFail);
 };
 /*View books ends*/
-
-//delete funktionen
+//--------------------------------------------------------------------------
+/*delete starts*/
 $('.newDelete').on('click', event => {
   sendDeleteAllBooksRequest();
-
 });
-
 function sendDeleteAllBooksRequest(numberOfTries = 5){
   function whenDeleteDone(data) {
-      console.log('Nu är jag inne i whendeletedone funktionen');
       let object = JSON.parse(data);
       if(object.status == "success") {
           sendGetAllBooksRequest();
@@ -174,17 +187,74 @@ function sendDeleteAllBooksRequest(numberOfTries = 5){
 
   if (numberOfTries < 1)
     return;
-  const url = 'https://www.forverkliga.se/JavaScript/api/crud.php';
-  const settings = {
-    method: 'GET',
-    data:  {
-      op: 'delete',
-      key: apiKey,
-
-      id: bookId,
+    const url = 'https://www.forverkliga.se/JavaScript/api/crud.php';
+    const settings = {
+      method: 'GET',
+      data:  {
+        op: 'delete',
+        key: apiKey,
+        id: bookId,
     },
   }
   xhr = $.ajax(url, settings);
   xhr.done(whenDeleteDone)
     .fail(whenFail);
 };
+/*delete ends*/
+//-----------------------------------------------------------------------
+/*change book*/
+$('.makeChanges').on('click', event => {
+  makeChangesToBook();
+});
+  function makeChangesToBook(numberOfTries = 5){
+    function whenChangeDone(data) {
+      let object = JSON.parse(data);
+      if(object.status == "success") {
+          $(".newDelete, .bookDelete, .bookChange, .deleteAll, .makeChanges").remove();
+          newDelete = $('<button class="newDelete" id="newChangeGreen"><div class="bookList"><i class="fas fa-check id="checkBoxGreen"></i></div></button>');
+          deleteButton = $('<button class="bookDelete"><div class="bookList"><input type="text" placeholder="author title" id="changeBookTitle"></div></button>');
+          changeButton = $('<button class="bookChange"><div class="bookList"><input type="text" placeholder="Book title" id="changeBookAuthor"></div></button>');
+          makeChanges= $('<button class="makeChanges"><div class="bookList"><i class="fas fa-edit"></i></div></button>');
+
+          newDelete.click(event => {
+            makeChangesToBook();
+            book = $('#changeBookTitle').val();
+            author = $('#changeBookAuthor').val();
+            let deleteButton = $('<button class="bookDelete"><div class="bookList">' + book + '</div></button>');
+            let changeButton = $('<button class="bookChange"><div class="bookList">' + author + '</div></button>');
+
+          });
+          $('.bookBox').append(newDelete);
+          $('.bookBox').append(deleteButton);
+          $('.bookBox').append(changeButton);
+          $('.bookBox').append(makeChanges);
+
+
+      } else {
+        whenFail(numberOfTries);
+        $('.failLogg').append('<div class="failDiv">' + object.message + '</div>');
+        }
+    };
+
+  function whenFail(error) {
+    makeChangesToBook(numberOfTries - 1);
+  };
+
+  if (numberOfTries < 1)
+    return;
+  const url = 'https://www.forverkliga.se/JavaScript/api/crud.php';
+  const settings = {
+    method: 'GET',
+    data:  {
+      title:  book,
+      author:  author,
+      op: 'update',
+      key: apiKey,
+      id: bookId,
+    },
+  }
+  xhr = $.ajax(url, settings);
+  xhr.done(whenChangeDone)
+    .fail(whenFail);
+};
+/*change book*/
